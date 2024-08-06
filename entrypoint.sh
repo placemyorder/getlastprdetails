@@ -58,8 +58,8 @@ if [ ${#messageArray[@]} -eq 2 ]; then
         # Get PR details from GitHub API
         prDetails=$(curl -s -H "Authorization: Bearer $token" "https://api.github.com/repos/$repoName/pulls/$prNumber")
         
-        # Extract branch name using grep and awk
-        branch=$(echo "$prDetails" | grep '"ref":' | awk -F'"ref":' '{print $2}' | awk -F'"' '{print $2}')
+        # Extract branch name
+       branch=$(echo "$prDetails" | jq -r '.head.ref')
 
         # Check if EventName is "push" and set shouldIncrement
         if [ "$eventName" = "push" ]; then
