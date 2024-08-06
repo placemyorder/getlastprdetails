@@ -1,0 +1,12 @@
+name: 'GetLast Pr Details'
+description: 'Enable Version Increment based on last PR details'
+inputs:
+  token:
+    description: 'The token to be used to interact with github api'
+    required: true
+  reponame:
+    description: 'The name of the repository'
+    required: true
+runs:
+  using: 'node20'
+  main: 'index.js'
