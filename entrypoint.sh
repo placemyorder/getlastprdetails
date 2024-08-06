@@ -5,12 +5,11 @@ set -e
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 --token <token> --repoName <repoName>"
+    echo "Usage: $0 --token <token> --repoName <repoName> --commitMessage <commitMessage>"
     exit 1
 }
 
 # Check if required commands are installed
-command -v git >/dev/null 2>&1 || { echo "Error: git is not installed. Please install git."; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo "Error: curl is not installed. Please install curl."; exit 1; }
 
 # Parse arguments
@@ -24,6 +23,10 @@ while [[ $# -gt 0 ]]; do
             repoName="$2"
             shift 2
             ;;
+        --commitMessage)
+            commitMessage="$2"
+            shift 2
+            ;;            
         *)
             usage
             ;;
@@ -31,12 +34,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check mandatory parameters
-if [ -z "$token" ] || [ -z "$repoName" ]; then
+if [ -z "$token" ] || [ -z "$repoName" ] || [ -z "$commitMessage" ]; then
     usage
 fi
 
 # Get the commit message
-commitMessage=$(git show -s --format=%s "$GIT_HASH")
 echo "message: $commitMessage"
 
 # Split the commit message by "#"
