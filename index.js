@@ -34,7 +34,8 @@ const main = async () => {
     args.push('--commitMessage', input3);
     const output = await exec('bash', args);
      // Log the output (for debugging)
-     console.log(output);
+     core.info('Output from bash' + output)
+
 
      // Parse the output to extract the values
      const outputLines = output.split('\n');

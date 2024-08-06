@@ -5,7 +5,7 @@ set -e
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 --token <token> --repoName <repoName> --commitMessage <commitMessage>"
+    echo "Usage: $0 --token <token> --repoName <repoName> --commitMessage <commitMessage> --eventName <eventName>"
     exit 1
 }
 
@@ -23,6 +23,10 @@ while [[ $# -gt 0 ]]; do
             repoName="$2"
             shift 2
             ;;
+        --eventName)
+            eventName="$2"
+            shift 2
+            ;;            
         --commitMessage)
             commitMessage="$2"
             shift 2
@@ -34,12 +38,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check mandatory parameters
-if [ -z "$token" ] || [ -z "$repoName" ] || [ -z "$commitMessage" ]; then
+if [ -z "$token" ] || [ -z "$repoName" ] || [ -z "$commitMessage" ] || [ -z "$eventName" ]; then
     usage
 fi
-
-# Get the commit message
-echo "message: $commitMessage"
 
 # Split the commit message by "#"
 IFS='#' read -r -a messageArray <<< "$commitMessage"
@@ -50,26 +51,21 @@ shouldIncrement="no"
 # Check if the messageArray has exactly 2 elements
 if [ ${#messageArray[@]} -eq 2 ]; then
     prNumber=$(echo "${messageArray[1]}" | sed 's/)$//')
-    echo "prNumber: $prNumber"
 
     # Check if prNumber is numeric
     if [[ "$prNumber" =~ ^[0-9.]+$ ]]; then
-        echo "isPrNumberNumeric: true"
 
         # Get PR details from GitHub API
         prDetails=$(curl -s -H "Authorization: Bearer $token" "https://api.github.com/repos/$repoName/pulls/$prNumber")
         
         # Extract branch name using grep and awk
         branch=$(echo "$prDetails" | grep '"ref":' | awk -F'"ref":' '{print $2}' | awk -F'"' '{print $2}')
-        echo "branch: $branch"
 
         # Check if EventName is "push" and set shouldIncrement
-        if [ "$EVENT_NAME" = "push" ]; then
+        if [ "$eventName" = "push" ]; then
             echo "PR_BRANCH=$branch"
             shouldIncrement="yes"
         fi
-    else
-        echo "isPrNumberNumeric: false"
     fi
 fi
 
