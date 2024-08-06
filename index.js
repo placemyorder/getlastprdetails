@@ -12,6 +12,7 @@ const path = require("path");
 const input1 = core.getInput('token');
 const input2 = core.getInput('reponame');
 const input3 = core.getInput('commitMessage');
+const input4 = core.getInput('eventName');
 
 const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
     console.log(`Started: ${cmd} ${args.join(" ")}`)
@@ -32,6 +33,7 @@ const main = async () => {
     args.push('--token', input1);
     args.push('--repoName', input2);
     args.push('--commitMessage', input3);
+    args.push('--eventName', input4);
     const output = await exec('bash', args);
      // Log the output (for debugging)
      core.info('Output from bash' + output)

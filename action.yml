@@ -10,6 +10,9 @@ inputs:
   commitMessage:
     description: 'The last commit message of the merged pr'
     required: true    
+  eventName:
+    description: 'The github event which triggered this action'
+    required: true        
 outputs:
   PR_BRANCH:
     description: 'The branch name of the last PR'
