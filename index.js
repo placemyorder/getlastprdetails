@@ -29,7 +29,7 @@ const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
 const main = async () => {
     const args = [path.join(__dirname, './entrypoint.sh')];
     args.push('--token', input1);
-    args.push('--reponame', input2);
+    args.push('--repoName', input2);
     await exec('bash', args);
 };
 
