@@ -65,7 +65,7 @@ if [ ${#messageArray[@]} -eq 2 ]; then
 
         # Check if EventName is "push" and set shouldIncrement
         if [ "$EVENT_NAME" = "push" ]; then
-            echo "PR_BRANCH=$branch" >> "$GITHUB_OUTPUT"
+            echo "PR_BRANCH=$branch"
             shouldIncrement="yes"
         fi
     else
@@ -74,4 +74,4 @@ if [ ${#messageArray[@]} -eq 2 ]; then
 fi
 
 # Output the AutoIncrement value
-echo "AutoIncrement=$shouldIncrement" >> "$GITHUB_OUTPUT"
+echo "AutoIncrement=$shouldIncrement"

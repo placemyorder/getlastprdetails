@@ -32,7 +32,26 @@ const main = async () => {
     args.push('--token', input1);
     args.push('--repoName', input2);
     args.push('--commitMessage', input3);
-    await exec('bash', args);
+    const output = await exec('bash', args);
+     // Log the output (for debugging)
+     console.log(output);
+
+     // Parse the output to extract the values
+     const outputLines = output.split('\n');
+     let prBranch = '';
+     let autoIncrement = 'no';
+ 
+     outputLines.forEach(line => {
+         if (line.startsWith('PR_BRANCH=')) {
+             prBranch = line.split('=')[1];
+         } else if (line.startsWith('AutoIncrement=')) {
+             autoIncrement = line.split('=')[1];
+         }
+     });
+ 
+     // Set the outputs
+     core.setOutput('PR_BRANCH', prBranch);
+     core.setOutput('AutoIncrement', autoIncrement);
 };
 
 main().catch(err => {

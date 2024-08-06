@@ -10,6 +10,11 @@ inputs:
   commitMessage:
     description: 'The last commit message of the merged pr'
     required: true    
+outputs:
+  PR_BRANCH:
+    description: 'The branch name of the last PR'
+  AutoIncrement:
+    description: 'Indicates whether to auto-increment the version'    
 runs:
   using: 'node20'
   main: 'index.js'
