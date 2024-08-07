@@ -14,27 +14,7 @@ const input2 = core.getInput('reponame');
 const input3 = core.getInput('commitMessage');
 const input4 = core.getInput('eventName');
 
-// const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
-//     console.log(`Started: ${cmd} ${args.join(" ")}`)
-//     const app = spawn(cmd, args, { stdio: 'inherit' });
-//     app.on('close', code => {
-//         if(code !== 0){
-//             err = new Error(`Invalid status code: ${code}`);
-//             err.code = code;
-//             return reject(err);
-//         };
-//         return resolve(code);
-//     });
-//     app.on('error', reject);
-// });
-
 const main = async () => {
-    // const args = [path.join(__dirname, './entrypoint.sh')];
-    // args.push('--token', input1);
-    // args.push('--repoName', input2);
-    // args.push('--commitMessage', input3);
-    // args.push('--eventName', input);
-
     const scriptPath = path.join(__dirname, './entrypoint.sh');
     const command = `bash ${scriptPath} --token "${input1}" --repoName "${input2}" --commitMessage "${input3}" --eventName "${input4}"`;
 
